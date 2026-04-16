@@ -73,9 +73,9 @@ export default function App() {
   };
 
   return (
-    <div className="h-screen w-full flex overflow-hidden bg-[#f4f7f6] text-[#2d3436] font-['Helvetica_Neue',Arial,sans-serif]">
+    <div className="flex flex-col lg:flex-row min-h-screen lg:h-screen w-full lg:overflow-hidden bg-[#f4f7f6] text-[#2d3436] font-['Helvetica_Neue',Arial,sans-serif]">
       {/* Sidebar */}
-      <aside className="w-full sm:w-[360px] bg-white border-r border-[#ddd] flex flex-col p-6 shrink-0 overflow-y-auto z-10">
+      <aside className="w-full lg:w-[360px] lg:h-full bg-white border-b lg:border-b-0 lg:border-r border-[#ddd] flex flex-col p-5 sm:p-6 shrink-0 lg:overflow-y-auto z-20">
         <div className="flex flex-col items-center justify-center text-center gap-3 mb-8">
           <label className="cursor-pointer group relative">
             {appLogo ? (
@@ -187,9 +187,10 @@ export default function App() {
       </aside>
 
       {/* Main Preview */}
-      <main className="hidden sm:flex flex-1 bg-[#e0e0e0] items-center justify-center relative overflow-y-auto p-8">
+      <main className="flex w-full lg:flex-1 lg:h-full bg-[#e0e0e0] flex-col items-center justify-center relative overflow-hidden lg:overflow-auto min-h-[500px] sm:min-h-[550px] lg:min-h-0 py-8 z-10">
+        <div className="transform scale-[0.65] sm:scale-90 lg:scale-100 flex items-center justify-center origin-center">
         {/* We wrap the card in a padded container and attach cardRef here so html-to-image captures the drop shadow */}
-        <div ref={cardRef} className="p-10 bg-transparent flex items-center justify-center">
+        <div ref={cardRef} className="p-10 bg-transparent flex items-center justify-center shrink-0">
           <div className="w-[380px] h-[580px] bg-white rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.3)] relative flex flex-col shrink-0 overflow-hidden">
             {/* Top Blue Section */}
             <div className="bg-[#0b1b32] h-[200px] w-full relative shrink-0">
@@ -286,6 +287,7 @@ export default function App() {
               </div>
             </div>
           </div>
+        </div>
         </div>
         </div>
       </main>
