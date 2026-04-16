@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import html2canvas from 'html2canvas';
+import * as htmlToImage from 'html-to-image';
 import { Upload, Download, Image as ImageIcon, User, Calendar, MapPin, Hash, Check } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 
@@ -58,14 +58,13 @@ export default function App() {
   const downloadCard = async () => {
     if (cardRef.current) {
       try {
-        const canvas = await html2canvas(cardRef.current, {
-          scale: 2, // Higher quality
-          useCORS: true,
-          backgroundColor: null,
+        const dataUrl = await htmlToImage.toPng(cardRef.current, {
+          quality: 1,
+          pixelRatio: 2,
         });
         const link = document.createElement('a');
         link.download = `alumni-card-${name.replace(/\s+/g, '-').toLowerCase() || '1995'}.png`;
-        link.href = canvas.toDataURL('image/png');
+        link.href = dataUrl;
         link.click();
       } catch (error) {
         console.error('Error generating card:', error);
@@ -189,11 +188,11 @@ export default function App() {
 
       {/* Main Preview */}
       <main className="hidden sm:flex flex-1 bg-[#e0e0e0] items-center justify-center relative overflow-y-auto p-8">
-        {/* We wrap the card in a padded container and attach cardRef here so html2canvas captures the drop shadow */}
+        {/* We wrap the card in a padded container and attach cardRef here so html-to-image captures the drop shadow */}
         <div ref={cardRef} className="p-10 bg-transparent flex items-center justify-center">
-          <div className="w-[380px] h-[580px] rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.3)] relative flex flex-col shrink-0 bg-transparent">
+          <div className="w-[380px] h-[580px] bg-white rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.3)] relative flex flex-col shrink-0 overflow-hidden">
             {/* Top Blue Section */}
-            <div className="bg-[#0b1b32] h-[200px] w-full relative rounded-t-2xl overflow-hidden shrink-0 z-0">
+            <div className="bg-[#0b1b32] h-[200px] w-full relative shrink-0">
             {/* Header content */}
             <div className="flex items-center gap-4 p-6 relative z-10">
               {/* Logo */}
@@ -227,7 +226,7 @@ export default function App() {
           </div>
 
           {/* Bottom White Section */}
-          <div className="flex-1 w-full bg-white relative pt-[150px] px-8 pb-8 flex flex-col rounded-b-2xl z-10">
+          <div className="flex-1 w-full relative pt-[150px] px-8 pb-8 flex flex-col">
             
             {/* Profile Photo (Absolute positioned to overlap) */}
             <div className="absolute top-[-130px] left-1/2 -translate-x-1/2 flex flex-col items-center z-20">
